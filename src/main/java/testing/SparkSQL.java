@@ -1,50 +1,29 @@
 package testing;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Arrays;
-import java.util.Collections;
-import java.io.Serializable;
-import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
-import org.apache.spark.sql.Encoder;
-import org.apache.spark.sql.Encoders;
-import org.apache.spark.sql.RowFactory;
 import org.apache.spark.sql.SparkSession;
-import org.apache.spark.sql.types.DataTypes;
-import org.apache.spark.sql.types.StructField;
-import org.apache.spark.sql.types.StructType;
-import org.apache.spark.sql.AnalysisException;
-import static org.apache.spark.sql.functions.col;
 
 public class SparkSQL {
 
   public static void main(String[] args) {
-    // $example on:init_session$
+	  
+	System.setProperty("hadoop.home.dir", "C:\\Users\\Simon\\Documents\\winutils\\");
+	
     SparkSession spark = SparkSession
       .builder()
-      .appName("Java Spark SQL basic example")
+      .master("local[2]")
+      .appName("SQLSpark")
       .config("spark.some.config.option", "some-value")
       .getOrCreate();
+    
+    runBasicDataFrameExample(spark);
 
   }
 
   private static void runBasicDataFrameExample(SparkSession spark) {
-    // $example on:create_df$
-    Dataset<Row> df = spark.read().json("examples/src/main/resources/people.json");
 
-    // Displays the content of the DataFrame to stdout
+    Dataset<Row> df = spark.read().json("F:\\Coding\\spark-2.3.1-bin-hadoop2.7\\examples\\src\\main\\resources\\people.json\\");
     df.show();
-    // +----+-------+
-    // | age|   name|
-    // +----+-------+
-    // |null|Michael|
-    // |  30|   Andy|
-    // |  19| Justin|
-    // +----+-------+
-    // $example off:create_df$
   }
 }
